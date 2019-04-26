@@ -1,0 +1,47 @@
+<canvas width="700" height = "700" id = "canvas"></canvas>
+
+<script>
+	class Tracer{
+		constructor(x,y,color){
+			this.x = x;
+			this.y = y;
+			this.color = color;
+			this.t = 0;
+		}
+		getX(){
+			return this.x + 300*func1(this.t);
+		}
+		getY(){
+			return this.y - 300*func2(this.t);
+		}
+		move(){
+			this.t+=0.002;
+		}
+	}
+	let canvas = document.getElementById('canvas');
+	let ctx = canvas.getContext('2d');
+	let x = 350;
+	let y = 350
+	let func1 = t=>Math.sin(6*t)*Math.cos(t);
+	let func2 = t=>Math.abs(Math.sin(6*t)*Math.sin(t));
+	let tracers = [new Tracer(350,350)];
+	let interval = setInterval(()=>{
+		render();
+	},1);
+	let render = ()=>{
+		ctx.globalAlpha = 0.07;
+		ctx.fillStyle = 'black';
+		ctx.fillRect(0,0,canvas.width,canvas.height);
+		ctx.globalAlpha = 1;
+		tracers.forEach(t=>{
+			ctx.fillStyle = 'blue';
+			ctx.fillRect(t.getX(),t.getY(),2,2);
+			t.move();
+		});
+		if(Math.random() > 0.99) addTracer();
+	}
+	let addTracer = ()=>{
+		tracers.push(new Tracer(350,350));
+	}
+
+</script>
