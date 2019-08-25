@@ -5,7 +5,9 @@
 		constructor(x,y,color){
 			this.x = x;
 			this.y = y;
-			this.color = color;
+			this.red = Math.floor(Math.random() * redMax);
+			this.blue = Math.floor(Math.random() * blueMax);
+			this.green = Math.floor(Math.random() * greenMax);
 			this.t = 0;
 		}
 		getX(){
@@ -16,12 +18,18 @@
 		}
 		move(){
 			this.t+=0.002;
+			this.red += (Math.random() > 0.5)?1:-1;
+			this.blue += (Math.random() > 0.5)?1:-1;
+			this.green += (Math.random() > 0.5)?1:-1;
 		}
 	}
 	let canvas = document.getElementById('canvas');
 	let ctx = canvas.getContext('2d');
 	let x = 350;
 	let y = 350
+	const redMax = 255;
+	const greenMax = 255;
+	const blueMax = 0;
 	let func1 = t=>Math.sin(6*t)*Math.cos(t);
 	let func2 = t=>Math.abs(Math.sin(6*t)*Math.sin(t));
 	let tracers = [new Tracer(350,350)];
@@ -34,7 +42,8 @@
 		ctx.fillRect(0,0,canvas.width,canvas.height);
 		ctx.globalAlpha = 1;
 		tracers.forEach(t=>{
-			ctx.fillStyle = 'blue';
+			//ctx.fillStyle = 'blue';
+			ctx.fillStyle = `rgb(${t.red},${t.green},${t.blue})`;
 			ctx.fillRect(t.getX(),t.getY(),2,2);
 			t.move();
 		});
